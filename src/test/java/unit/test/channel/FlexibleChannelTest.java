@@ -2,6 +2,7 @@ package unit.test.channel;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import tech.talent.channel.FlexibleChannel;
 import tech.talent.exception.ExpiredException;
 import tech.talent.exception.LockedException;
@@ -45,7 +46,7 @@ public class FlexibleChannelTest {
 
     @Test(expected = LockedException.class)
     public void flexible_channel_should_throw_lockedException_when_package_is_lock() {
-        given(this.flexiblePackage.isLocked(Calendar.getInstance())).willThrow(new LockedException("come on!") {
+        given(this.flexiblePackage.isLocked(Mockito.any(Calendar.class))).willThrow(new LockedException("come on!") {
         });
 
         this.flexibleChannel.send("lest go!", language);
@@ -53,7 +54,7 @@ public class FlexibleChannelTest {
 
     @Test(expected = ExpiredException.class)
     public void flexible_channel_should_throw_expiredException_when_package_is_expired() {
-        given(this.flexiblePackage.isExpired(Calendar.getInstance())).willThrow(new ExpiredException("Hey you!") {
+        given(this.flexiblePackage.isExpired(Mockito.any(Calendar.class))).willThrow(new ExpiredException("Hey you!") {
         });
         this.flexibleChannel.send("Yeah!", language);
     }

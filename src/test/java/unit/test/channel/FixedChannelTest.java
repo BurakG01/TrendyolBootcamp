@@ -2,9 +2,11 @@ package unit.test.channel;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import tech.talent.channel.FixedChannel;
 import tech.talent.exception.ExpiredException;
 import tech.talent.exception.LockedException;
+import tech.talent.exception.MailFixedLockException;
 import tech.talent.language.Language;
 import tech.talent.model.ReceiverDto;
 import tech.talent.pack.FixedPackage;
@@ -15,6 +17,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 public class FixedChannelTest {
@@ -44,15 +47,14 @@ public class FixedChannelTest {
 
     @Test(expected = LockedException.class)
     public void fixed_channel_should_throw_lockedException_when_package_is_lock() {
-        given(this.fixedPackage.isLocked(Calendar.getInstance())).willThrow(new LockedException("come on!") {
+        given(this.fixedPackage.isLocked(Mockito.any(Calendar.class))).willThrow(new LockedException("come on!") {
         });
-
         this.fixedChannel.send("lest go!", language);
     }
 
     @Test(expected = ExpiredException.class)
     public void fixed_channel_should_throw_expiredException_when_package_is_expired() {
-        given(this.fixedPackage.isExpired(Calendar.getInstance())).willThrow(new ExpiredException("Hey you!") {
+        given(this.fixedPackage.isExpired(Mockito.any(Calendar.class))).willThrow(new ExpiredException("Hey you!") {
         });
         this.fixedChannel.send("Yeah!", language);
     }
