@@ -93,7 +93,7 @@ public class SmsFixedPackageTest {
 
     @Test
     public void price_should_be_zero_when_invoice_has_paid() {
-        smsFixedPackage.pay(Calendar.getInstance());
+        smsFixedPackage.pay(Calendar.getInstance(),new BigDecimal(20));
         Calendar date = Calendar.getInstance();
         date.add(Calendar.MONTH, 2);
         BigDecimal expectedPrice = new BigDecimal(0);

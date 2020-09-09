@@ -17,8 +17,7 @@ public class SmsFixedPackage extends FixedPackage {
 
     @Override
     public boolean isLocked(Calendar date) throws SmsFixedLockException {
-        if ((date.after(latestPaymentDate) && !isPaid) ||
-                (isPaid && paymentDate.after(latestPaymentDate))) {
+        if ((date.after(latestPaymentDate) && !isPaid)) {
             throw new SmsFixedLockException(language.getSmsFixedLockMessage());
         }
         return false;

@@ -21,8 +21,7 @@ public class MailFlexiblePackage extends FlexiblePackage {
 
     @Override
     public boolean isLocked(Calendar date) throws LockedException {
-        if ((date.after(latestPaymentDate) && !isPaid) ||
-                (isPaid && paymentDate.after(latestPaymentDate))) {
+        if ((date.after(latestPaymentDate) && !isPaid)) {
             throw new MailFlexibleLockException(language.getMailFlexibleLockMessage());
         }
         return false;

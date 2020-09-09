@@ -88,7 +88,7 @@ public class SmsFlexiblePackageTest {
 
     @Test
     public void price_should_be_zero_when_invoice_has_paid() {
-        smsFlexiblePackage.pay(Calendar.getInstance());
+        smsFlexiblePackage.pay(Calendar.getInstance(),new BigDecimal(30));
         Calendar date = Calendar.getInstance();
         date.add(Calendar.MONTH, 2);
         BigDecimal expectedPrice = new BigDecimal(0);

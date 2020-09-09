@@ -35,6 +35,10 @@ public class CompanyDto {
         return lockReason;
     }
 
+    public void clearLockReason() {
+        this.lockReason = "";
+    }
+
     public void setLockReason(String lockReason) {
         this.lockReason = lockReason;
     }

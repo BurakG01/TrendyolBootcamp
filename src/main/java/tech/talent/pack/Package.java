@@ -33,9 +33,6 @@ public abstract class Package {
         this.price = price;
     }
 
-    public void setPriceZero() {
-        this.price = new BigDecimal(0);
-    }
 
     public BigDecimal getCurrentPrice(Calendar date) throws InvoiceIsNotReadyException {
         if (endDate.after(date)) {
@@ -44,8 +41,8 @@ public abstract class Package {
         return price;
     }
 
-    public void pay(Calendar date) {
-        setPriceZero();
+    public void pay(Calendar date, BigDecimal price) {
+        this.price=this.price.subtract(price);
         this.isPaid = true;
         paymentDate = date;
     }

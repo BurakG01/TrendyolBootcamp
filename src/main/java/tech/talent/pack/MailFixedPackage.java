@@ -16,8 +16,7 @@ public class MailFixedPackage extends FixedPackage {
 
     @Override
     public boolean isLocked(Calendar date) throws LockedException {
-        if ((date.after(latestPaymentDate) && !isPaid) ||
-                (isPaid && paymentDate.after(latestPaymentDate))) {
+        if ((date.after(latestPaymentDate) && !isPaid)) {
             throw new MailFixedLockException(language.getMailFixedLockMessage());
         }
         return false;

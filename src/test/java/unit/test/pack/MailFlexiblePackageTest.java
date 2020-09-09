@@ -88,12 +88,12 @@ public class MailFlexiblePackageTest {
 
     @Test
     public void price_should_be_zero_when_invoice_has_paid() {
-        mailFlexiblePackage.pay(Calendar.getInstance());
+        mailFlexiblePackage.pay(Calendar.getInstance(),new BigDecimal(7.5));
         Calendar date = Calendar.getInstance();
         date.add(Calendar.MONTH, 2);
         BigDecimal expectedPrice = new BigDecimal(0);
         BigDecimal currentPrice = mailFlexiblePackage.getCurrentPrice(date);
-        Assert.assertEquals(expectedPrice, currentPrice);
+        Assert.assertEquals(expectedPrice.intValue(),currentPrice.intValue());
     }
 
     @Test(expected = InvoiceIsNotReadyException.class)

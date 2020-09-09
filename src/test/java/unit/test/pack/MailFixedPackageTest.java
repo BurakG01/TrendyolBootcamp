@@ -95,7 +95,7 @@ public class MailFixedPackageTest {
 
     @Test
     public void price_should_be_zero_when_invoice_has_paid() {
-        mailFixedPackage.pay(Calendar.getInstance());
+        mailFixedPackage.pay(Calendar.getInstance(), new BigDecimal(10));
         Calendar date = Calendar.getInstance();
         date.add(Calendar.MONTH, 2);
         BigDecimal expectedPrice = new BigDecimal(0);
