@@ -1,7 +1,7 @@
 package tech.talent.pack;
 
-import tech.talent.exception.SmsExpiredException;
-import tech.talent.exception.SmsLockException;
+import tech.talent.exception.SmsFixedExpiredException;
+import tech.talent.exception.SmsFixedLockException;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -16,18 +16,18 @@ public class SmsFixedPackage extends FixedPackage {
     }
 
     @Override
-    public boolean isLocked() throws SmsLockException {
-        if ((Calendar.getInstance().after(latestPaymentDate) && !isPaid) ||
+    public boolean isLocked(Calendar date) throws SmsFixedLockException {
+        if ((date.after(latestPaymentDate) && !isPaid) ||
                 (isPaid && paymentDate.after(latestPaymentDate))) {
-            throw new SmsLockException();
+            throw new SmsFixedLockException(language.getSmsFixedLockMessage());
         }
         return false;
     }
 
     @Override
-    public boolean isExpired() throws SmsExpiredException {
-        if (Calendar.getInstance().after(endDate)) {
-            throw new SmsExpiredException();
+    public boolean isExpired(Calendar date) throws SmsFixedExpiredException {
+        if (date.after(endDate)) {
+            throw new SmsFixedExpiredException(language.getSmsFixedExpiredMessage());
         }
         return false;
     }

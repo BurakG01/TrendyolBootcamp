@@ -1,7 +1,30 @@
 package tech.talent.language;
 
-public interface Language {
-    String getLockMessage();
+import tech.talent.model.ReceiverDto;
 
-    String getExpiredMessage();
+public interface Language {
+    String getSmsFixedLockMessage();
+
+    String getMailFixedLockMessage();
+
+    String getMailFlexibleLockMessage();
+
+    String getSmsFlexibleLockMessage();
+
+    String getSmsFixedExpiredMessage();
+
+    String getMailFixedExpiredMessage();
+
+    String getMailFlexibleExpiredMessage();
+
+    String getSmsFlexibleExpiredMessage();
+
+    String getMailReceiverNotValidMessage();
+
+    String getSmsReceiverNotValidMessage();
+    String getInvoiceIsNotReadyMessage();
+
+    String PrintMessage(String message, String receiverName);
+
+
 }

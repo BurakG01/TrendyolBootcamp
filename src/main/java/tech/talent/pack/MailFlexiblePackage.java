@@ -10,7 +10,7 @@ public class MailFlexiblePackage extends FlexiblePackage {
     private final static double MAIL_FLEXIBLE_INITIAL_PRICE = 7.5;
     private final static double MAIL_FLEXIBLE_INCREASE_PRICE = 0.03;
 
-    protected MailFlexiblePackage() {
+    public MailFlexiblePackage() {
         super(MAIL_FLEXIBLE_QUOTA_LIMIT, new BigDecimal(MAIL_FLEXIBLE_INITIAL_PRICE));
     }
 
@@ -20,18 +20,18 @@ public class MailFlexiblePackage extends FlexiblePackage {
     }
 
     @Override
-    public boolean isLocked() throws LockedException {
-        if ((Calendar.getInstance().after(latestPaymentDate) && !isPaid) ||
+    public boolean isLocked(Calendar date) throws LockedException {
+        if ((date.after(latestPaymentDate) && !isPaid) ||
                 (isPaid && paymentDate.after(latestPaymentDate))) {
-            throw new MailLockException();
+            throw new MailFlexibleLockException(language.getMailFlexibleLockMessage());
         }
         return false;
     }
 
     @Override
-    public boolean isExpired() throws ExpiredException {
-        if (Calendar.getInstance().after(endDate)) {
-            throw new MailExpiredException();
+    public boolean isExpired(Calendar date) throws ExpiredException {
+        if (date.after(endDate)) {
+            throw new MailFlexibleExpiredException(language.getMailFlexibleExpiredMessage());
         }
         return false;
     }

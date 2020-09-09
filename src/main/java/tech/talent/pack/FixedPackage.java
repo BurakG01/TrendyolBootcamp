@@ -7,6 +7,9 @@ public abstract class FixedPackage extends Package {
         super(limit, price);
     }
 
+    public int getCount() {
+        return count;
+    }
 
     public void resetCount() {
         this.count = INITIAL_COUNT;

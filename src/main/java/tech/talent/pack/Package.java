@@ -3,6 +3,7 @@ package tech.talent.pack;
 import tech.talent.exception.ExpiredException;
 import tech.talent.exception.InvoiceIsNotReadyException;
 import tech.talent.exception.LockedException;
+import tech.talent.language.Language;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -17,6 +18,7 @@ public abstract class Package {
     public boolean isPaid;
     public int count;
     private int limit;
+    public Language language;
     public BigDecimal price;
 
     protected Package(int limit, BigDecimal price) {
@@ -35,22 +37,26 @@ public abstract class Package {
         this.price = new BigDecimal(0);
     }
 
-    public BigDecimal getCurrentPrice() throws InvoiceIsNotReadyException {
-        if (endDate.after(Calendar.getInstance())) {
-            throw new InvoiceIsNotReadyException();
+    public BigDecimal getCurrentPrice(Calendar date) throws InvoiceIsNotReadyException {
+        if (endDate.after(date)) {
+            throw new InvoiceIsNotReadyException(language.getInvoiceIsNotReadyMessage());
         }
         return price;
     }
 
-    public abstract boolean isLocked() throws LockedException;
-
-    public abstract boolean isExpired() throws ExpiredException;
-
-    public void pay() {
+    public void pay(Calendar date) {
         setPriceZero();
         this.isPaid = true;
-        paymentDate = Calendar.getInstance();
+        paymentDate = date;
     }
+
+    public void setCompanyLanguage(Language language) {
+        this.language = language;
+    }
+
+    public abstract boolean isLocked(Calendar date) throws LockedException;
+
+    public abstract boolean isExpired(Calendar date) throws ExpiredException;
 
     public void increaseCount() {
         this.count++;

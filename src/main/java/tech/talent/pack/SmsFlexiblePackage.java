@@ -1,19 +1,16 @@
 package tech.talent.pack;
 
-import tech.talent.exception.ExpiredException;
-import tech.talent.exception.LockedException;
-import tech.talent.exception.SmsExpiredException;
-import tech.talent.exception.SmsLockException;
+import tech.talent.exception.*;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-public class SmsFlexiblePackage extends  FlexiblePackage {
+public class SmsFlexiblePackage extends FlexiblePackage {
     private final static int SMS_FLEXIBLE_QUOTA_LIMIT = 2000;
     private final static int SMS_FLEXIBLE_INITIAL_PRICE = 30;
     private final static double SMS_FLEXIBLE_INCREASE_PRICE = 0.1;
 
-    protected SmsFlexiblePackage() {
+    public SmsFlexiblePackage() {
         super(SMS_FLEXIBLE_QUOTA_LIMIT, new BigDecimal(SMS_FLEXIBLE_INITIAL_PRICE));
     }
 
@@ -23,18 +20,18 @@ public class SmsFlexiblePackage extends  FlexiblePackage {
     }
 
     @Override
-    public boolean isLocked() throws LockedException {
-        if ((Calendar.getInstance().after(latestPaymentDate) && !isPaid) ||
+    public boolean isLocked(Calendar date) throws LockedException {
+        if ((date.after(latestPaymentDate) && !isPaid) ||
                 (isPaid && paymentDate.after(latestPaymentDate))) {
-            throw new SmsLockException();
+            throw new SmsFlexibleLockException(language.getSmsFlexibleLockMessage());
         }
         return false;
     }
 
     @Override
-    public boolean isExpired() throws ExpiredException {
-        if (Calendar.getInstance().after(endDate)) {
-            throw new SmsExpiredException();
+    public boolean isExpired(Calendar date) throws ExpiredException {
+        if (date.after(endDate)) {
+            throw new SmsFlexibleExpiredException(language.getSmsFlexibleExpiredMessage());
         }
         return false;
     }

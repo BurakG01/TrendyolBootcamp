@@ -20,17 +20,16 @@ public class NotificationService {
         }
         for (Channel channel : company.getChannels()) {
             try {
-                channel.send(message);
+                channel.send(message, company.getLanguage());
             } catch (LockedException exception) {
-                String lockReason = exception.getMessage() + company.getLanguage().getLockMessage();
+                String lockReason = exception.getMessage();
                 company.setLocked(true);
                 company.setLockReason(lockReason);
                 System.out.println(lockReason);
 
-
             } catch (ExpiredException exception) {
 
-                System.out.println(exception.getMessage() + company.getLanguage().getExpiredMessage());
+                System.out.println(exception.getMessage());
             }
         }
 
